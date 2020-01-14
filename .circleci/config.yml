@@ -12,7 +12,7 @@ jobs:
           command: currDir=$(pwd)/
       - run:
           name: Install pre-reqs
-          command: apt-get update -qqy && apt-get install -qqy wimtools
+          command: apt-get update -qqy && apt-get install -qqy wimtools uuid-runtime
       - run:
           name: Extract WIM file
           command: wimextract testData.wim 1 --dest-dir=/tmp/testExtract
