@@ -8,49 +8,25 @@ jobs:
       - checkout
 
       - run:
-          name: set variables
-          command: currDir=$(pwd)/
-      - run:
-          name: Install pre-reqs
-          command: apt-get update -qqy && apt-get install -qqy wimtools uuid-runtime bc git
-      - run:
-          name: Extract WIM file
-          command: wimextract testData.wim 1 --dest-dir=/tmp/testExtract
-      - run:
-          name: Set random file name
-          command: uuid=$(uuidgen)
-      - run:
-          name: set filesize in bytes (8MB)
-          command: filesize=$(echo "(8*1024)*1024" | bc)
-      - run:
-          name: Create 8MB file
-          command: fallocate -l 8388608 /tmp/testExtract/osteh.txt
-      - run:
-          name: Capture WIM from directory with updates
-          command: wimcapture /tmp/testExtract /tmp/circleciWIM.wim --compress=fast --check --norpfix "circle-ci Test" "Test capture on Github using CircleCI"
-      - run:
-          name: Move the captured WIM back into the repo directory
-          command: mv /tmp/circleciWIM.wim "${currDir}circleci.wim"
-      - run:
-          name: List everything
-          command: ls
+          name: Build updated WIM image
+          command: |
+            currDir=$(pwd)/
+            apt-get update -qqy && apt-get install -qqy wimtools uuid-runtime bc git
+            wimextract testData.wim 1 --dest-dir=/tmp/testExtract
+            uuid=$(uuidgen)
+            filesize=$(echo "(8*1024)*1024" | bc)
+            fallocate -l 8388608 /tmp/testExtract/osteh.txt
+            wimcapture /tmp/testExtract /tmp/circleciWIM.wim --compress=fast --check --norpfix "circle-ci Test" "Test capture on Github using CircleCI"
+            mv /tmp/circleciWIM.wim "${currDir}circleci.wim"
+            ls
           
       - run:
-          name: Avoid hosts unknown for github
-          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-      - run:
-          name: set github user.email
-          command: git config user.email "danijel.james@me.com"
-      - run:
-          name: set githum user.name
-          command: git config user.name "Danijel James"
-      - run:
-          name: Add files to repo
-          command: git add .
-      - run:
-          name: commit with new message
-          command: git commit -m "from circleci"
-      - run:
-          name: push to github
-          command: git push -u origin master
+          name: GitHub configuration stash
+          command: |
+            mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+            git config user.email "danijel.james@me.com"
+            git config user.name "Danijel James"
+            git add .
+            git commit -m "from circleci"
+            git push -u origin master
           
