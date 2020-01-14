@@ -8,9 +8,14 @@ jobs:
       - checkout
 
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Install pre-reqs
+          command: apt-get update -qqy && apt-get install -qqy wimtools
 
       - run:
-          name: Print the Current Time
+          name: Extract WIM file
+          command: wimextract testData.wim 1 --dest-dir=/tmp/testExtract
+      
+      - run:
+          name: Print the current date time
           command: date
+
