@@ -24,7 +24,7 @@ jobs:
           command: filesize=$(echo "(8*1024)*1024" | bc)
       - run:
           name: Create 8MB file
-          command: fallocate -l $filesize /tmp/testExtract/osteh.txt
+          command: fallocate -l 8388608 /tmp/testExtract/osteh.txt
       - run:
           name: Capture WIM from directory with updates
           command: wimcapture /tmp/testExtract /tmp/circleciWIM.wim \
