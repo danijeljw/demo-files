@@ -8,17 +8,11 @@ jobs:
       - checkout
 
       - run:
-          name: set github user.email
-          command: git config user.email "danijel.james@me.com"
-      - run:
-          name: set githum user.name
-          command: git config user.name "Danijel James"
-      - run:
           name: set variables
           command: currDir=$(pwd)/
       - run:
           name: Install pre-reqs
-          command: apt-get update -qqy && apt-get install -qqy wimtools uuid-runtime bc
+          command: apt-get update -qqy && apt-get install -qqy wimtools uuid-runtime bc git
       - run:
           name: Extract WIM file
           command: wimextract testData.wim 1 --dest-dir=/tmp/testExtract
@@ -40,6 +34,13 @@ jobs:
       - run:
           name: List everything
           command: ls
+      - run:
+          name: set github user.email
+          command: git config user.email "danijel.james@me.com"
+      - run:
+          name: set githum user.name
+          command: git config user.name "Danijel James"
+
       - run:
           name: Add files to repo
           command: git add .
