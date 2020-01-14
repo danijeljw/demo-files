@@ -5,6 +5,10 @@ jobs:
       - image: debian:stretch
 
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "bc:3e:e8:7f:d5:88:87:3b:90:68:73:78:89:49:77:f2"
+            
       - checkout
 
       - run:
