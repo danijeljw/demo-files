@@ -8,14 +8,31 @@ jobs:
       - checkout
 
       - run:
+          name: set variables
+          command: currDir=$(pwd)/
+      - run:
           name: Install pre-reqs
           command: apt-get update -qqy && apt-get install -qqy wimtools
-
       - run:
           name: Extract WIM file
           command: wimextract testData.wim 1 --dest-dir=/tmp/testExtract
-      
       - run:
-          name: Print the current date time
-          command: date
-
+          name: Set random file name
+          command: uuid=$(uuidgen)
+      - run:
+          name: set filesize in bytes (8MB)
+          command: filesize=$(echo "(8*1024)*1024" | bc)
+      - run:
+          name: Create 8MB file
+          command: fallocate -l $filesize /tmp/testExtract/osteh.txt
+      - run:
+          name: Capture WIM from directory with updates
+          command: wimcapture /tmp/testExtract /tmp/circleciWIM.wim \
+            --compress=fast --check --norpfix "circle-ci Test" \
+            "Test capture on Github using CircleCI"
+      - run:
+          name: Move the captured WIM back into the repo directory
+          command: mv /tmp/circleciWIM.wim "${currDir}circleci.wim
+      - run:
+          name: List everything
+          command: ls
