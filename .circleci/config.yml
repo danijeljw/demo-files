@@ -41,9 +41,12 @@ jobs:
           name: List everything
           command: ls
       - run:
-          name: add new files
+          name: Add files to repo
           command: git add .
-      - run: commit files
-          command: git commit -m '[skip ci]'
-      - run: push to origin
+      - run:
+          name: commit with new message
+          command: git commit -m "[skip ci]"
+      - run:
+          name: push to github
           command: git push -u origin master
+          
