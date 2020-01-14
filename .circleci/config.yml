@@ -8,6 +8,12 @@ jobs:
       - checkout
 
       - run:
+          name: set github user.email
+          command: git config user.email "danijel.james@me.com"
+      - run:
+          name: set githum user.name
+          command: git config user.name "Danijel James"
+      - run:
           name: set variables
           command: currDir=$(pwd)/
       - run:
@@ -34,3 +40,8 @@ jobs:
       - run:
           name: List everything
           command: ls
+      - run:
+          name: Commit code
+          command: git add .
+          command: git commit -m '[skip ci]'
+          command: git push -u origin master
