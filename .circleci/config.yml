@@ -34,13 +34,16 @@ jobs:
       - run:
           name: List everything
           command: ls
+          
+      - run:
+          name: Avoid hosts unknown for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
           name: set github user.email
           command: git config user.email "danijel.james@me.com"
       - run:
           name: set githum user.name
           command: git config user.name "Danijel James"
-
       - run:
           name: Add files to repo
           command: git add .
