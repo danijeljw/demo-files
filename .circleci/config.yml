@@ -49,7 +49,7 @@ jobs:
           command: git add .
       - run:
           name: commit with new message
-          command: git commit -m "[skip ci]"
+          command: git commit -m "from circleci"
       - run:
           name: push to github
           command: git push -u origin master
