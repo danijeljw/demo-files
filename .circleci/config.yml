@@ -30,7 +30,7 @@ jobs:
           command: wimcapture /tmp/testExtract /tmp/circleciWIM.wim --compress=fast --check --norpfix "circle-ci Test" "Test capture on Github using CircleCI"
       - run:
           name: Move the captured WIM back into the repo directory
-          command: mv /tmp/circleciWIM.wim "${currDir}circleci.wim
+          command: mv /tmp/circleciWIM.wim "${currDir}circleci.wim"
       - run:
           name: List everything
           command: ls
